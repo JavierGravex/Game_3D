@@ -5,18 +5,18 @@ public class Gun : MonoBehaviour
 {
     public float range = 20f;
     public float verticalRange = 20f; 
-
-    public float fireRate;
-
-    private float nextTimeToFire; 
-
-    private BoxCollider gunTrigger; 
-
-    public EnemyManager enemyManager; 
+    public float gunShotRadius = 20f;
 
     public float damage = 2f;
 
-    public LayerMask raycastLayerMask; 
+    public float fireRate = 1f;
+    private float nextTimeToFire;
+
+    public LayerMask raycastLayerMask;
+    public LayerMask enemyLayerMask;
+
+    private BoxCollider gunTrigger; 
+    public EnemyManager enemyManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,6 +38,21 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
+
+        // Simulate gun shot radius
+
+        Collider[] enemyColliders;
+        enemyColliders = Physics.OverlapSphere(transform.position, gunShotRadius, enemyLayerMask);
+
+        // Alert any enemy in earshot
+
+        foreach (var enemyCollider in enemyColliders) {
+            enemyCollider.GetComponent<EnemyAwareness>().isAggro = true;
+        }
+
+        GetComponent<AudioSource>().Stop();
+        GetComponent<AudioSource>().Play();
+
         // damage enemies 
         foreach (var enemy in enemyManager.enemiesInTrigger)
         {
@@ -45,7 +60,7 @@ public class Gun : MonoBehaviour
             var dir = enemy.transform.position - transform.position; 
 
             RaycastHit hit; 
-            if (Physics.Raycast(transform.position, dir, out hit, range * 1.5f, raycastLayerMask))
+            if (Physics.Raycast(transform.position, dir, out hit, range * 1.5f, raycastLayerMask, QueryTriggerInteraction.Ignore))
             {
                 if (hit.transform == enemy.transform)
                 {
