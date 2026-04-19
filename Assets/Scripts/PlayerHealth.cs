@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {   
         health = maxHealth;  
-        armor = MaxArmor; //for test purposes      
+        armor = 0;  
     }
 
     // Update is called once per frame
@@ -63,4 +63,22 @@ public class PlayerHealth : MonoBehaviour
 
         
     }
+
+    public void GiveHealth(int amount, GameObject pickup)
+    {
+        if (health >= maxHealth) return;
+
+        health = Mathf.Min(health + amount, maxHealth);
+        Destroy(pickup);
+    }
+
+    public void GiveArmor(int amount, GameObject pickup)
+    {
+        if (armor >= MaxArmor) return;
+
+        armor = Mathf.Min(armor + amount, MaxArmor);
+        Destroy(pickup);
+    }
 }
+
+    
