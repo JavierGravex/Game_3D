@@ -12,6 +12,9 @@ public class Gun : MonoBehaviour
     public float fireRate = 1f;
     private float nextTimeToFire;
 
+    public int maxAmmo;
+    private int ammo;
+
     public LayerMask raycastLayerMask;
     public LayerMask enemyLayerMask;
 
@@ -24,12 +27,13 @@ public class Gun : MonoBehaviour
         gunTrigger = GetComponent<BoxCollider>();
         gunTrigger.size = new Vector3(1, verticalRange, range);
         gunTrigger.center = new Vector3(0, 0, range * 0.5f);
+        ammo = 15; // Starting ammo
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Mouse.current.leftButton.wasPressedThisFrame && Time.time > nextTimeToFire)
+        if(Mouse.current.leftButton.wasPressedThisFrame && Time.time > nextTimeToFire && ammo > 0)
         {
             Fire();
         }
@@ -85,6 +89,17 @@ public class Gun : MonoBehaviour
 
         // Reset timer
         nextTimeToFire = Time.time + fireRate; 
+
+        // Deduct 1 ammo
+        ammo--;
+    }
+
+    public void GiveAmmo(int amount, GameObject pickup)
+    {
+        if (ammo >= maxAmmo) return;
+
+        ammo = Mathf.Min(ammo + amount, maxAmmo);
+        Destroy(pickup);
     }
 
     private void OnTriggerEnter(Collider other)
