@@ -11,13 +11,19 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         enemyAwareness = GetComponent<EnemyAwareness>();
-        playersTransform = FindObjectOfType<PlayerMove>().transform;
+        var player = Object.FindFirstObjectByType<PlayerMove>();
+        playersTransform = player != null ? player.transform : null;
         enemyNavMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playersTransform == null)
+        {
+            return;
+        }
+
         if (enemyAwareness.isAggro) {
             enemyNavMeshAgent.SetDestination(playersTransform.position);
         }

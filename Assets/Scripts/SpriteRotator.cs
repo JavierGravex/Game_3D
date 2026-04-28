@@ -8,13 +8,19 @@ public class SpriteRotator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        target = FindObjectOfType<PlayerMove>().transform;
+        var player = Object.FindFirstObjectByType<PlayerMove>();
+        target = player != null ? player.transform : null;
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         transform.LookAt(target);
     }
 }

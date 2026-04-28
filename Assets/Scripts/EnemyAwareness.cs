@@ -12,12 +12,17 @@ public class EnemyAwareness : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playersTransform = FindObjectOfType<PlayerMove>().transform;
+        var player = Object.FindFirstObjectByType<PlayerMove>();
+        playersTransform = player != null ? player.transform : null;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playersTransform == null)
+        {
+            return;
+        }
 
         var dist = Vector3.Distance(transform.position, playersTransform.position);
 

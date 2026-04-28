@@ -28,6 +28,8 @@ public class Gun : MonoBehaviour
         gunTrigger.size = new Vector3(1, verticalRange, range);
         gunTrigger.center = new Vector3(0, 0, range * 0.5f);
         ammo = 15; // Starting ammo
+
+        CanvasManager.Instance.UpdateAmmo(ammo);
     }
 
     // Update is called once per frame
@@ -92,6 +94,7 @@ public class Gun : MonoBehaviour
 
         // Deduct 1 ammo
         ammo--;
+        CanvasManager.Instance.UpdateAmmo(ammo);
     }
 
     public void GiveAmmo(int amount, GameObject pickup)
@@ -100,6 +103,8 @@ public class Gun : MonoBehaviour
 
         ammo = Mathf.Min(ammo + amount, maxAmmo);
         Destroy(pickup);
+
+        CanvasManager.Instance.UpdateAmmo(ammo);
     }
 
     private void OnTriggerEnter(Collider other)
