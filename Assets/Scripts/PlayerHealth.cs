@@ -16,7 +16,9 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {   
         health = maxHealth;  
+        CanvasManager.Instance.UpdateHealth(health);
         armor = 0;  
+        CanvasManager.Instance.UpdateArmor(armor);
     }
 
     // Update is called once per frame
@@ -61,23 +63,28 @@ public class PlayerHealth : MonoBehaviour
 
         }
 
-        
+        CanvasManager.Instance.UpdateHealth(health);
+        CanvasManager.Instance.UpdateArmor(armor);
     }
 
     public void GiveHealth(int amount, GameObject pickup)
     {
-        if (health >= maxHealth) return;
-
+        if (health < maxHealth)
+        {
         health = Mathf.Min(health + amount, maxHealth);
         Destroy(pickup);
+        }
+        CanvasManager.Instance.UpdateHealth(health);
     }
 
     public void GiveArmor(int amount, GameObject pickup)
     {
-        if (armor >= MaxArmor) return;
-
-        armor = Mathf.Min(armor + amount, MaxArmor);
-        Destroy(pickup);
+        if (armor < MaxArmor)
+        {
+            armor = Mathf.Min(armor + amount, MaxArmor);
+            Destroy(pickup);
+        }
+        CanvasManager.Instance.UpdateArmor(armor);
     }
 }
 

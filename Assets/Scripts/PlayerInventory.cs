@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public bool hasGreen = false;
-    public bool hasBlue = false;
-    public bool hasRed = false;
+
+    public bool hasGreen, hasBlue, hasRed;
+    
+    private void Start()
+    {
+        CanvasManager.Instance.ClearKeyUI();
+    }
 }
