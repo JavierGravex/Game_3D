@@ -5,7 +5,7 @@ public class EnemyAwareness : MonoBehaviour
 
     public float awerenessRadio = 15f;
     public bool isAggro;
-    public Material aggroMat;
+    
     private Transform playersTransform;
 
 
@@ -31,7 +31,7 @@ public class EnemyAwareness : MonoBehaviour
         }
 
         if (isAggro) {
-            GetComponent<MeshRenderer>().material = aggroMat;
+  
         }
     }
 }
