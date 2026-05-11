@@ -58,8 +58,11 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.Log("Player has died.");
 
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.buildIndex);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            SceneManager.LoadScene("DeathScreen");
 
         }
 
