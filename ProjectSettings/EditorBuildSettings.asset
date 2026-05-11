@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 309b769c34cead149ae082804a12794e
+  - enabled: 1
     path: Assets/Scenes/DoomClone.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    guid: f2baff690529f2749b7fe786ff917997
+  - enabled: 1
+    path: Assets/Scenes/DeathScreen.unity
+    guid: 05334132339352c4b865bdd0ce9ca13b
+  - enabled: 1
+    path: Assets/Scenes/VictoryScreen.unity
+    guid: b697e29c73ea8f44ea85d09e3af1125c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -8,5 +9,17 @@ public class PlayerInventory : MonoBehaviour
     private void Start()
     {
         CanvasManager.Instance.ClearKeyUI();
+    }
+
+    private void Update()
+    {
+        if(hasGreen && hasBlue && hasRed)
+        {
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            SceneManager.LoadScene("VictoryScreen");
+        }
     }
 }
