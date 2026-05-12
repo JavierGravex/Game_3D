@@ -27,9 +27,13 @@ public class Gun : MonoBehaviour
         gunTrigger = GetComponent<BoxCollider>();
         gunTrigger.size = new Vector3(1, verticalRange, range);
         gunTrigger.center = new Vector3(0, 0, range * 0.5f);
-        ammo = 15; // Starting ammo
+        maxAmmo = Mathf.Max(maxAmmo, 1);
+        ammo = Mathf.Min(15, maxAmmo); // Starting ammo
 
-        CanvasManager.Instance.UpdateAmmo(ammo);
+        if (CanvasManager.Instance != null)
+        {
+            CanvasManager.Instance.UpdateAmmo(ammo, maxAmmo);
+        }
     }
 
     // Update is called once per frame
@@ -53,7 +57,11 @@ public class Gun : MonoBehaviour
         // Alert any enemy in earshot
 
         foreach (var enemyCollider in enemyColliders) {
-            enemyCollider.GetComponent<EnemyAwareness>().isAggro = true;
+            EnemyAwareness enemyAwareness = enemyCollider.GetComponent<EnemyAwareness>();
+            if (enemyAwareness != null)
+            {
+                enemyAwareness.isAggro = true;
+            }
         }
 
         GetComponent<AudioSource>().Stop();
@@ -94,7 +102,10 @@ public class Gun : MonoBehaviour
 
         // Deduct 1 ammo
         ammo--;
-        CanvasManager.Instance.UpdateAmmo(ammo);
+        if (CanvasManager.Instance != null)
+        {
+            CanvasManager.Instance.UpdateAmmo(ammo, maxAmmo);
+        }
     }
 
     public void GiveAmmo(int amount, GameObject pickup)
@@ -104,7 +115,10 @@ public class Gun : MonoBehaviour
         ammo = Mathf.Min(ammo + amount, maxAmmo);
         Destroy(pickup);
 
-        CanvasManager.Instance.UpdateAmmo(ammo);
+        if (CanvasManager.Instance != null)
+        {
+            CanvasManager.Instance.UpdateAmmo(ammo, maxAmmo);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

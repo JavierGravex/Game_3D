@@ -8,7 +8,10 @@ public class PlayerInventory : MonoBehaviour
     
     private void Start()
     {
-        CanvasManager.Instance.ClearKeyUI();
+        if (CanvasManager.Instance != null)
+        {
+            CanvasManager.Instance.ClearKeyUI();
+        }
     }
 
     private void Update()

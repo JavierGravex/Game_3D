@@ -12,19 +12,28 @@ public class KeyPickup : MonoBehaviour
             if(isGreenKey)
             {
                 other.GetComponent<PlayerInventory>().hasGreen = true;
-                CanvasManager.Instance.UpdateKeyUI(keyColor:"green");
+                if (CanvasManager.Instance != null)
+                {
+                    CanvasManager.Instance.UpdateKeyUI(keyColor:"green");
+                }
             }
 
             if(isBlueKey)
             {
                 other.GetComponent<PlayerInventory>().hasBlue = true;
-                CanvasManager.Instance.UpdateKeyUI(keyColor:"blue");
+                if (CanvasManager.Instance != null)
+                {
+                    CanvasManager.Instance.UpdateKeyUI(keyColor:"blue");
+                }
             }
 
             if(isRedKey)
             {
                 other.GetComponent<PlayerInventory>().hasRed = true;
-                CanvasManager.Instance.UpdateKeyUI(keyColor:"red");
+                if (CanvasManager.Instance != null)
+                {
+                    CanvasManager.Instance.UpdateKeyUI(keyColor:"red");
+                }
             }
 
             Destroy(gameObject);

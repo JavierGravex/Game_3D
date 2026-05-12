@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class PlayerHealth : MonoBehaviour
 {   
@@ -11,73 +8,63 @@ public class PlayerHealth : MonoBehaviour
 
     public int MaxArmor;
     private int armor;
+    private bool isDead;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {   
         health = maxHealth;  
-        CanvasManager.Instance.UpdateHealth(health);
         armor = 0;  
-        CanvasManager.Instance.UpdateArmor(armor);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {   
-        //temporary test
-        if(Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (CanvasManager.Instance != null)
         {
-            DamagePlayer(30);
-            Debug.Log("Player has been damaged." );
+            CanvasManager.Instance.UpdateHealth(health);
+            CanvasManager.Instance.UpdateArmor(armor);
         }
     }
 
     public void DamagePlayer(int damage)
     {
-        
-        if(armor > 0)
+        if (isDead || damage <= 0)
         {
-            if(armor >= damage)
-            {
-                armor -= damage;
-            }
-            else if(armor < damage)
-            {
-                int remainingDamage;
-                remainingDamage = damage - armor;
-                armor = 0;
-                health -= remainingDamage;
-            }
-        }
-        else
-        {
-            health -= damage;
+            return;
         }
 
-        if(health <= 0)
+        int absorbedDamage = Mathf.Min(armor, damage);
+        armor -= absorbedDamage;
+        health = Mathf.Max(health - (damage - absorbedDamage), 0);
+
+        if (CanvasManager.Instance != null)
         {
+            CanvasManager.Instance.UpdateHealth(health);
+            CanvasManager.Instance.UpdateArmor(armor);
+            CanvasManager.Instance.ShowDamageFeedback();
+        }
+
+        if (health <= 0)
+        {
+            isDead = true;
             Debug.Log("Player has died.");
-
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
             SceneManager.LoadScene("DeathScreen");
-
         }
-
-        CanvasManager.Instance.UpdateHealth(health);
-        CanvasManager.Instance.UpdateArmor(armor);
     }
 
     public void GiveHealth(int amount, GameObject pickup)
     {
         if (health < maxHealth)
         {
-        health = Mathf.Min(health + amount, maxHealth);
-        Destroy(pickup);
+            health = Mathf.Min(health + amount, maxHealth);
+            Destroy(pickup);
         }
-        CanvasManager.Instance.UpdateHealth(health);
+
+        if (CanvasManager.Instance != null)
+        {
+            CanvasManager.Instance.UpdateHealth(health);
+        }
     }
 
     public void GiveArmor(int amount, GameObject pickup)
@@ -87,8 +74,10 @@ public class PlayerHealth : MonoBehaviour
             armor = Mathf.Min(armor + amount, MaxArmor);
             Destroy(pickup);
         }
-        CanvasManager.Instance.UpdateArmor(armor);
+
+        if (CanvasManager.Instance != null)
+        {
+            CanvasManager.Instance.UpdateArmor(armor);
+        }
     }
 }
-
-    

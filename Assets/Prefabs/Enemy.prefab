@@ -209,6 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679f849a4645c41319b1013e3a518878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  attackDamage: 10
+  attackRange: 2.2
+  attackCooldown: 1.25
 --- !u!195 &7112008701735735030
 NavMeshAgent:
   m_ObjectHideFlags: 0

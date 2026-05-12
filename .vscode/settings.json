@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Game_3D.slnx"
+    "dotnet.defaultSolution": "Game_3D_backup_before_doom_hud_rooms_20260511_1438.slnx"
 }
